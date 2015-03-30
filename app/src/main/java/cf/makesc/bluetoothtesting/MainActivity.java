@@ -39,13 +39,13 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onReceivingClick(View v) {
-        Intent intent = new Intent(MainActivity.this, ReceivingActivity.class);
+    public void onClientClick(View v) {
+        Intent intent = new Intent(MainActivity.this, ClientActivity.class);
         startActivity(intent);
     }
 
-    public void onTransmittingClick(View v) {
-        Intent intent = new Intent(MainActivity.this, TransmittingActivity.class);
+    public void onServerClick(View v) {
+        Intent intent = new Intent(MainActivity.this, ServerActivity.class);
         startActivity(intent);
     }
 }

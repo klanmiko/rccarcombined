@@ -6,5 +6,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_receiving">ReceivingActivity</string>
     <string name="title_activity_transmitting">TransmittingActivity</string>
+    <string name="title_activity_camera_test">CameraTest</string>
+    <string name="title_activity_client">ClientActivity</string>
+    <string name="title_activity_server">ServerActivity</string>
 
 </resources>
