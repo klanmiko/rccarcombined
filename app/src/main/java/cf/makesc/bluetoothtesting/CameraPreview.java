@@ -1,6 +1,8 @@
 package cf.makesc.bluetoothtesting;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
@@ -24,9 +26,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private SurfaceHolder mHolder;
     private Socket socket;
     private DataOutputStream out;
-
+    long oldtime,newtime,delta;
     private static final int SERVERPORT = 56469;
-    private static final String SERVER_IP = "192.168.0.42";
+    private static final String SERVER_IP = "10.255.58.92";
     private static final int WIDTH = 320;
     private static final int HEIGHT = 240;
 
@@ -60,6 +62,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         try {
             mCamera.setPreviewDisplay(holder);
             mCamera.setPreviewCallback(this);
+            mCamera.setDisplayOrientation(90);
             mCamera.startPreview();
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,22 +94,36 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) { //called whenever a frame is called up on the camera preview
-        if (socket.isConnected()) {
-            try {
-                Camera.Parameters p = mCamera.getParameters();
-                p.setPreviewSize(WIDTH, HEIGHT);
-                mCamera.setParameters(p);
-                YuvImage yuvImage = new YuvImage(data, p.getPreviewFormat(), WIDTH, HEIGHT, null); //makes YUVImage from the preview image
-                Rect rect = new Rect(0,0,WIDTH, HEIGHT);
-                ByteArrayOutputStream tempStream = new ByteArrayOutputStream();
-                yuvImage.compressToJpeg(rect, 50, tempStream); //sends YUVImage to bytearrayoutputstream
-                byte[] temp = tempStream.toByteArray(); //temp is a byte[] that represents the image
-                out.writeInt(temp.length); //writes the length of temp using dataoutputstream
-                out.write(temp); //writes the image byte[] using dataoutputstream
+        newtime=System.currentTimeMillis();
+        delta=newtime-oldtime;
+        Log.i("fps",String.valueOf(delta));
+        if (socket != null) {
+            if (socket.isConnected()){
+                try{
+                    Camera.Parameters p = mCamera.getParameters();
+                    Log.i("format", String.valueOf(p.getPreviewFormat()));
+                    //p.setPreviewSize(WIDTH, HEIGHT);
+                    //mCamera.setParameters(p);
+                    YuvImage yuvImage = new YuvImage(data, p.getPreviewFormat(), p.getPreviewSize().width, p.getPreviewSize().height, null); //makes YUVImage from the preview image
+                    Rect rect = new Rect(0, 0, p.getPreviewSize().width, p.getPreviewSize().height);
+                    ByteArrayOutputStream tempStream = new ByteArrayOutputStream();
+                    yuvImage.compressToJpeg(rect, 30, tempStream); //sends YUVImage to bytearrayoutputstream
+                    byte[] temp = tempStream.toByteArray(); //temp is a byte[] that represents the image
+                    byte[] start = {0x48,0x41,0x23};
+                    out.write(start);
+                    out.writeInt(temp.length); //writes the length of temp using dataoutputstream
+                    //Log.i("length", String.valueOf(data.length));
+                    //Bitmap bm = BitmapFactory.decodeByteArray(data,0,data.length);
+                    out.write(temp);
+                    out.flush();
+                    //need to flush here -Kaelan
+                    //writes the image byte[] using dataoutputstream
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
+        oldtime=newtime;
     }
 }

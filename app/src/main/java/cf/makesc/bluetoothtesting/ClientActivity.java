@@ -40,7 +40,7 @@ public class ClientActivity extends Activity {
                 mCamera.stopPreview();
             } catch (Exception e) {
                 e.printStackTrace();
-            };
+            }
             mCamera.release();
             mCamera = null;
         }

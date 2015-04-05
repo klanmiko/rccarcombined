@@ -102,7 +102,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback{
                 try {
                     c = surfaceHolder.lockCanvas();
                     synchronized (surfaceHolder) {
-                        cameraView.onDraw(c);
+                        cameraView.draw(c);
                     }
                 } finally {
                     if (c!= null) {
