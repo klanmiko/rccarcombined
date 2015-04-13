@@ -2,7 +2,6 @@ package cf.makesc.bluetoothtesting;
 
 import android.app.Activity;
 import android.hardware.Camera;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
