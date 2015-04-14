@@ -19,8 +19,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
+import scmaker.com.arduinowifi.wrappedlayout;
 
-public class ServerActivity extends Activity {
+
+public class ServerActivity extends Activity{
 
     private ServerSocket serverSocket;
     public static Bitmap image = null;
