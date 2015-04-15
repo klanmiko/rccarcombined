@@ -1,8 +1,12 @@
 package cf.makesc.bluetoothtesting;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.nsd.NsdManager;
+import android.net.nsd.NsdManager.RegistrationListener;
+import android.net.nsd.NsdServiceInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -15,6 +19,7 @@ import android.widget.ImageView;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -30,9 +35,45 @@ public class ServerActivity extends Activity{
     ImageView imageView;
     long oldtime,newtime,delta;
     long oldtimeb,newtimeb,deltab;
-
+    NsdManager mNsdManager;
     public Handler handler;
+    String mServiceName;
+    RegistrationListener mRegistrationListener = new RegistrationListener() {
 
+        @Override
+        public void onServiceRegistered(NsdServiceInfo NsdServiceInfo) {
+            // Save the service name.  Android may have changed it in order to
+            // resolve a conflict, so update the name you initially requested
+            // with the name Android actually used.
+            mServiceName = NsdServiceInfo.getServiceName();
+        }
+
+        @Override
+        public void onRegistrationFailed(NsdServiceInfo serviceInfo, int errorCode) {
+            // Registration failed!  Put debugging code here to determine why.
+        }
+
+        @Override
+        public void onServiceUnregistered(NsdServiceInfo arg0) {
+            // Service has been unregistered.  This only happens when you call
+            // NsdManager.unregisterService() and pass in this listener.
+        }
+
+        @Override
+        public void onUnregistrationFailed(NsdServiceInfo serviceInfo, int errorCode) {
+            // Unregistration failed.  Put debugging code here to determine why.
+        }
+    };
+    public void registerService(int port, Context context, InetAddress host) {
+        NsdServiceInfo serviceInfo  = new NsdServiceInfo();
+        serviceInfo.setServiceName("RobotController");
+        serviceInfo.setServiceType("_sum._tcp.");
+        serviceInfo.setPort(port);
+        serviceInfo.setHost(host);
+        mNsdManager = (NsdManager)context.getSystemService(Context.NSD_SERVICE);
+        mNsdManager.registerService(
+                serviceInfo, NsdManager.PROTOCOL_DNS_SD, mRegistrationListener);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +87,6 @@ public class ServerActivity extends Activity{
                 Log.i("drawfps",String.valueOf(deltab));
                 // Gets the image task from the incoming Message object.
                 Bitmap bm = (Bitmap)inputMessage.obj;
-
                 imageView.setImageBitmap(bm);
                 super.handleMessage(inputMessage);
                 oldtimeb=newtimeb;
@@ -60,7 +100,7 @@ public class ServerActivity extends Activity{
         }
         ServerThread serverThread = new ServerThread(this);
         serverThread.start();
-
+        registerService(PORT,this.getApplicationContext(),serverSocket.getInetAddress());
     }
     public void setBitmap(Bitmap bm)
     {

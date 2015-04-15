@@ -17,16 +17,23 @@ public class ClientActivity extends Activity {
 
     private Camera mCamera;
     private CameraPreview mPreview;
+    public InetAddress host;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if(extras.containsKey("host"))
+            {
+                host = (InetAddress) extras.get("host");
+            }
+        }
         setContentView(R.layout.activity_client);
 
         mCamera = Camera.open(0);
-
-        mPreview = new CameraPreview(this, mCamera);
+        mPreview = new CameraPreview(this, mCamera, host);
         FrameLayout preview = (FrameLayout) findViewById(R.id.client_preview);
         preview.addView(mPreview);
     }
