@@ -305,7 +305,7 @@ public class wrappedlayout extends Fragment {
                     while (client.isConnected()) {
                         encodeData(getSteer(), getSpeed());
                         try {
-                            Thread.sleep(10);
+                            Thread.sleep(50);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                             try {
