@@ -4,5 +4,9 @@
 /.idea/libraries
 .DS_Store
 /build
+/WindowsRC/WindowsRC/WindowsRC.Windows/obj
+/WindowsRC/WindowsRC/WindowsRC.Windows/bin
+/WindowsRC/WindowsRC/WindowsRC.WindowsPhone/obj
+/WindowsRC/WindowsRC/WindowsRC.WindowsPhone/bin
 
-.idea/gradle.xml
+*.xbf

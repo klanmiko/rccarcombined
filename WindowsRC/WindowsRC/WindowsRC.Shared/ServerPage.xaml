@@ -1,0 +1,24 @@
+﻿<Page
+    x:Class="WindowsRC.ServerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WindowsRC"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="30"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*">
+            </RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Image Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="4,0,26,0"></Image>
+        <Slider x:Name="steer" Grid.Column="0" Grid.Row="1" Value="50" Background="{x:Null}" Margin="0" Height="30"/>
+        <Slider x:Name="speed" Grid.Column="1" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Right" PointerPressed="stop_Lerp" PointerReleased="reset_Value" DragEnter="stop_Lerp" DragLeave="reset_Value" ValueChanged="send_Value" ManipulationStarted="stop_Lerp" ManipulationCompleted="reset_Value" ManipulationMode="System"/>
+    </Grid>
+</Page>
