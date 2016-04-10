@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using Windows.Networking.Sockets;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace WindowsRC
 {
     /// <summary>
@@ -38,7 +37,7 @@ namespace WindowsRC
             ssl = new StreamSocketListener();
             ssl.Control.QualityOfService = SocketQualityOfService.LowLatency;
             ssl.ConnectionReceived += new TypedEventHandler<StreamSocketListener, StreamSocketListenerConnectionReceivedEventArgs>(connected);
-            ssl.BindServiceNameAsync
+            ssl.BindServiceNameAsync("6551");
         }
         private void smoothBreak(Slider bar, double end) {
             double start = bar.Value;
@@ -49,10 +48,35 @@ namespace WindowsRC
         }
         private void send_Value(object sender, RangeBaseValueChangedEventArgs e)
         {
-            Slider bar = sender as Slider;
-            if (bar.Name == "speed")
+            if (ss != null)
             {
-
+                byte[] buffer = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+                buffer[0] = (byte)SessionProtocol.startbyte;
+                buffer[1] = (byte)SessionProtocol.steerbyte;
+                if (steer.Value < 0)
+                {
+                    buffer[2] = 0x00;
+                    buffer[3] = (byte)(steer.Value * -1);
+                }
+                else if (steer.Value > 0)
+                {
+                    buffer[2] = 0x01;
+                    buffer[3] = (byte)steer.Value;
+                }
+                buffer[4] = (byte)SessionProtocol.speedbyte;
+                if (speed.Value < 0)
+                {
+                    buffer[5] = 0x00;
+                    buffer[6] = (byte)(speed.Value * -1);
+                }
+                else if (speed.Value > 0)
+                {
+                    buffer[5] = 0x01;
+                    buffer[6] = (byte)speed.Value;
+                }
+                buffer[7] = (byte)SessionProtocol.delimbytes;
+                ss.OutputStream.WriteAsync(buffer.AsBuffer());
+                ss.OutputStream.FlushAsync();
             }
         }
     }

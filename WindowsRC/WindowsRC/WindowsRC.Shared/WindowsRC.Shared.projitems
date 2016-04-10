@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CameraPreview.xaml.cs">
       <DependentUpon>CameraPreview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)CodeFile1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServerPage.xaml.cs">
       <DependentUpon>ServerPage.xaml</DependentUpon>
     </Compile>
