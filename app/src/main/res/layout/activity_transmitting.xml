@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/res_list"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,6 +19,5 @@
         android:text="wait for it..."
         android:id="@+id/waitorgo"
         android:layout_below="@+id/res_list"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentLeft="true" />
 </RelativeLayout>

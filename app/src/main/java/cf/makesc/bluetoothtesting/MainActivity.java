@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.net.InetAddress;
@@ -145,7 +146,18 @@ public class MainActivity extends Activity {
     public void onClientClick(View v) {
         mNsdManager.stopServiceDiscovery(mDiscoveryListener);
         Intent intent = new Intent(MainActivity.this, ClientActivity.class);
+        if(add!=null)
         intent.putExtra("host",add);
+        else{
+            EditText et = (EditText) findViewById(R.id.IP);
+            try {
+                intent.putExtra("host", InetAddress.getByName(et.getText().toString()));
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
         startActivity(intent);
     }
 

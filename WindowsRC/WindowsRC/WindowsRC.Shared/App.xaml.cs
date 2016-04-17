@@ -7,6 +7,9 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+#if WINDOWS_PHONE_APP
+using Windows.Phone.UI.Input;
+#endif
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -37,8 +40,22 @@ namespace WindowsRC
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+#if WINDOWS_PHONE_APP
+            HardwareButtons.BackPressed += goBack;
+#endif
         }
+#if WINDOWS_PHONE_APP
+        private void goBack(Object sender,BackPressedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
 
+            if (rootFrame != null && rootFrame.CanGoBack)
+            {
+                e.Handled = true;
+                rootFrame.GoBack();
+            }
+        }
+#endif
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used when the application is launched to open a specific file, to display

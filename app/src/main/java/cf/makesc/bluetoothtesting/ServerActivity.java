@@ -147,7 +147,6 @@ public class ServerActivity extends Activity{
                             byte[] imageBytes = new byte[size];
                             int counter=0;
                             inStream.readFully(imageBytes,0,size);
-
                             Bitmap bm = BitmapFactory.decodeByteArray(imageBytes, 0, size);
                             newtime=System.currentTimeMillis();
                             delta=newtime-oldtime;

@@ -17,8 +17,8 @@
             </RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
         </Grid.RowDefinitions>
-        <Image Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="4,0,26,0"></Image>
-        <Slider x:Name="steer" Grid.Column="0" Grid.Row="1" Value="50" Background="{x:Null}" Margin="0" Height="30"/>
-        <Slider x:Name="speed" Grid.Column="1" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Right" PointerPressed="stop_Lerp" PointerReleased="reset_Value" DragEnter="stop_Lerp" DragLeave="reset_Value" ValueChanged="send_Value" ManipulationStarted="stop_Lerp" ManipulationCompleted="reset_Value" ManipulationMode="System"/>
+        <Image x:Name="canvas" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="4,0,26,0" Source="/Assets/12357083_521038994719862_4179304153977361045_o.jpg"></Image>
+        <Slider x:Name="steer" Grid.Column="0" Grid.Row="1" Value="50" Background="{x:Null}" Margin="0" Height="30" ValueChanged="send_Value"/>
+        <Slider x:Name="speed" Grid.Column="1" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Right" ValueChanged="send_Value" ManipulationMode="System"/>
     </Grid>
 </Page>

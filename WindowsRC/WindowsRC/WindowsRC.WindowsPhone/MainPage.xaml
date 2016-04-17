@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="button" Content="Server" HorizontalAlignment="Center" Margin="0,276,0,306" VerticalAlignment="Stretch" d:LayoutOverrides="Height, TopPosition, BottomPosition" Click="start_server"/>
+        <Button x:Name="button" Content="Server" HorizontalAlignment="Center" Margin="0,276,0,306" VerticalAlignment="Top" d:LayoutOverrides="Height, TopPosition, BottomPosition" Click="start_server"/>
         <Button x:Name="button1" Content="Camera" HorizontalAlignment="Center" Margin="0,395,1,0" VerticalAlignment="Top" d:LayoutOverrides="Width, LeftPosition, RightPosition" Click="start_camera"/>
         <TextBox x:Name="textBox" Margin="0,104,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" d:LayoutOverrides="Width" HorizontalAlignment="Center"/>
     </Grid>
